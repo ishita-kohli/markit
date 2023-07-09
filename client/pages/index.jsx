@@ -79,10 +79,10 @@ const Index = () => {
             onChange={(e) => setDocumentName(e.target.value)}
           />
           <button
-            className='bg-blue border text-white rounded-md p-2 md:ml-4'
+            className='bg-blue-500 border text-white rounded-md px-6 py-2 md:ml-4'
             onClick={submitHandler}
           >
-            create document
+            Create
           </button>
         </div>
         <div className='mt-6'>

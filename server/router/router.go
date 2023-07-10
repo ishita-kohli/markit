@@ -1,6 +1,7 @@
 package router
 
 import (
+	"server/internal/document"
 	"server/internal/user"
 	"time"
 
@@ -10,7 +11,7 @@ import (
 
 var r *gin.Engine
 
-func InitRouter(userHandler *user.Handler) {
+func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -28,6 +29,8 @@ func InitRouter(userHandler *user.Handler) {
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)
 	r.GET("/logout", userHandler.Logout)
+	
+	r.POST("/document", documentHandler.CreateDocument)
 }
 
 func Start(addr string) error {

@@ -1,4 +1,4 @@
-package user
+package document
 
 import (
 	"net/http"
@@ -28,6 +28,5 @@ func (h *Handler) CreateDocument(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.SetCookie("jwt", "", -1, "", "", false, true)
 	c.JSON(http.StatusOK, res)
 }

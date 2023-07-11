@@ -18,11 +18,12 @@ type Documentaccess struct {
 }
 
 type CreateDocumentReq struct {
-	Title string `json:"title"`
+	Title  string `json:"title"`
+	UserID int64
 }
 
 type Repository interface {
-	CreateDocument(ctx context.Context, req *CreateDocumentReq, userId int64) (int64, error)
+	CreateDocument(ctx context.Context, req *CreateDocumentReq) (int64, error)
 	GetDocumentById(ctx context.Context, id int64) (*Document, error)
 }
 

@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	"server/util"
 	"strconv"
 	"time"
@@ -89,4 +90,23 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 	}
 
 	return &LoginUserRes{accessToken: ss, Username: u.Username, ID: strconv.Itoa(int(u.ID))}, nil
+}
+
+func (s *service) GetSignedInUserID(c context.Context, tokenString string) (int64, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &MyJWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("AllYourBase"), nil
+	})
+	if err != nil {
+		return -1, err
+	}
+
+	if claims, ok := token.Claims.(*MyJWTClaims); ok && token.Valid {
+		id, err := strconv.Atoi(claims.ID)
+		if err != nil {
+			return -1, err
+		}
+		return int64(id), nil
+	}
+
+	return -1, fmt.Errorf("cannot get id")
 }

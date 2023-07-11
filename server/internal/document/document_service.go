@@ -5,10 +5,6 @@ import (
 	"time"
 )
 
-const (
-	secretKey = "secret"
-)
-
 type service struct {
 	Repository
 	timeout time.Duration
@@ -25,7 +21,7 @@ func (s *service) CreateDocument(c context.Context, req *CreateDocumentReq) (*Do
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
 
-	docId, err := s.Repository.CreateDocument(ctx, req, 0) //TODO
+	docId, err := s.Repository.CreateDocument(ctx, req)
 	if err != nil {
 		return nil, err
 	}

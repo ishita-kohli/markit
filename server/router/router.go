@@ -29,6 +29,8 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)
 	r.GET("/logout", userHandler.Logout)
+
+	r.Use(userHandler.AuthTokenMiddleware())
 	
 	r.POST("/document", documentHandler.CreateDocument)
 }

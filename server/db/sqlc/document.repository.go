@@ -11,7 +11,7 @@ type repository struct {
 	db *sql.DB
 }
 
-func (r *repository) CreateDocument(ctx context.Context, req *document.CreateDocumentReq, userId int64) (int64, error) {
+func (r *repository) CreateDocument(ctx context.Context, req *document.CreateDocumentReq) (int64, error) {
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -27,7 +27,7 @@ func (r *repository) CreateDocument(ctx context.Context, req *document.CreateDoc
 
 	perm := SetPermissionParams{
 		DocumentID: docId,
-		UserID:     userId,
+		UserID:     req.UserID,
 		Role:       DocumentAccessRolesOwner,
 	}
 	if _, err := qtx.SetPermission(ctx, perm); err != nil {

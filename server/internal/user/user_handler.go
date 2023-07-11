@@ -53,3 +53,23 @@ func (h *Handler) Logout(c *gin.Context) {
 	c.SetCookie("jwt", "", -1, "", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "logout successful"})
 }
+
+func (h *Handler) AuthTokenMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token, err := c.Cookie("jwt")
+		if err != nil {
+			c.AbortWithStatusJSON(403, gin.H{"error": "no cookie"})
+			return
+		}
+
+		userId, err := h.Service.GetSignedInUserID(c, token)
+		if err != nil {
+			c.AbortWithStatusJSON(401, gin.H{"error": "unauthorized"})
+			return
+		}
+
+		c.Set("userId", userId)
+
+		c.Next()
+	}
+}

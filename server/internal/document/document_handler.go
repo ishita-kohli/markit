@@ -23,6 +23,8 @@ func (h *Handler) CreateDocument(c *gin.Context) {
 		return
 	}
 
+	u.UserID = c.GetInt64("userId")
+
 	res, err := h.Service.CreateDocument(c.Request.Context(), &u)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

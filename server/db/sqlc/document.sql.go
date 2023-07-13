@@ -7,6 +7,7 @@ package sqlc
 
 import (
 	"context"
+	"time"
 )
 
 const createDocument = `-- name: CreateDocument :one
@@ -39,6 +40,57 @@ func (q *Queries) GetDocumentById(ctx context.Context, id int64) (Document, erro
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const getDocumentListByUser = `-- name: GetDocumentListByUser :many
+SELECT d.id,
+    d.title,
+    d.body,
+    d.created_at
+FROM document_access AS a
+    INNER JOIN documents AS d ON a.document_id = d.id
+WHERE a.user_id = $1
+    AND a.role = $2
+`
+
+type GetDocumentListByUserParams struct {
+	UserID int64
+	Role   DocumentAccessRoles
+}
+
+type GetDocumentListByUserRow struct {
+	ID        int64
+	Title     string
+	Body      string
+	CreatedAt time.Time
+}
+
+func (q *Queries) GetDocumentListByUser(ctx context.Context, arg GetDocumentListByUserParams) ([]GetDocumentListByUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, getDocumentListByUser, arg.UserID, arg.Role)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetDocumentListByUserRow
+	for rows.Next() {
+		var i GetDocumentListByUserRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Body,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getPermissionsForDocumentId = `-- name: GetPermissionsForDocumentId :many

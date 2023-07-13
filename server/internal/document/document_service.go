@@ -28,3 +28,9 @@ func (s *service) CreateDocument(c context.Context, req *CreateDocumentReq) (*Do
 
 	return s.Repository.GetDocumentById(ctx, docId)
 }
+func (s *service) Listdocuments(c context.Context, req *DocumentlistReq) ([](*Document), error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+	return s.Repository.Listdocuments(ctx, req)
+
+}

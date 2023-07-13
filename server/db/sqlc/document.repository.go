@@ -53,11 +53,13 @@ func (r *repository) GetDocumentById(ctx context.Context, id int64) (*document.D
 	}
 
 	result := &document.Document{
-		ID:        dbDocument.ID,
-		Title:     dbDocument.Title,
-		Body:      dbDocument.Body,
-		CreatedAt: dbDocument.CreatedAt,
-		Roles:     make([]document.Documentaccess, 0),
+		Leandocument: document.Leandocument{
+			ID:        dbDocument.ID,
+			Title:     dbDocument.Title,
+			Body:      dbDocument.Body,
+			CreatedAt: dbDocument.CreatedAt,
+		},
+		Roles: make([]document.Documentaccess, 0),
 	}
 
 	for i := range dbDocumentAccess {

@@ -6,10 +6,10 @@ import (
 )
 
 type Document struct {
-	Leandocument
+	LeanDocument
 	Roles []Documentaccess `json:"roles"`
 }
-type Leandocument struct {
+type LeanDocument struct {
 	ID        int64     `json:"id"`
 	Title     string    `json:"title"`
 	Body      string    `json:"body"`
@@ -32,10 +32,10 @@ type CreateDocumentReq struct {
 type Repository interface {
 	CreateDocument(ctx context.Context, req *CreateDocumentReq) (int64, error)
 	GetDocumentById(ctx context.Context, id int64) (*Document, error)
-	Listdocuments(c context.Context, req *DocumentlistReq) ([](*Document), error)
+	Listdocuments(c context.Context, req *DocumentlistReq) ([](*LeanDocument), error)
 }
 
 type Service interface {
 	CreateDocument(c context.Context, req *CreateDocumentReq) (*Document, error)
-	Listdocuments(c context.Context, req *DocumentlistReq) ([](*Document), error)
+	Listdocuments(c context.Context, req *DocumentlistReq) ([](*LeanDocument), error)
 }

@@ -53,7 +53,7 @@ func (r *repository) GetDocumentById(ctx context.Context, id int64) (*document.D
 	}
 
 	result := &document.Document{
-		Leandocument: document.Leandocument{
+		LeanDocument: document.LeanDocument{
 			ID:        dbDocument.ID,
 			Title:     dbDocument.Title,
 			Body:      dbDocument.Body,
@@ -66,6 +66,28 @@ func (r *repository) GetDocumentById(ctx context.Context, id int64) (*document.D
 		result.Roles = append(result.Roles, document.Documentaccess{
 			UserID: dbDocumentAccess[i].UserID,
 			Role:   string(dbDocumentAccess[i].Role),
+		})
+	}
+
+	return result, nil
+}
+func (r *repository) Listdocuments(c context.Context, req *document.DocumentlistReq) ([](*document.LeanDocument), error) {
+	dbDocument, err := r.q.GetDocumentListByUser(c, GetDocumentListByUserParams{
+		UserID: req.UserID,
+		Role:   DocumentAccessRoles(req.Role),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([](*document.LeanDocument), 0)
+
+	for i := range dbDocument {
+		result = append(result, &document.LeanDocument{
+			ID:        dbDocument[i].ID,
+			Title:     dbDocument[i].Title,
+			Body:      dbDocument[i].Body,
+			CreatedAt: dbDocument[i].CreatedAt,
 		})
 	}
 

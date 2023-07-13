@@ -30,9 +30,11 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r.POST("/login", userHandler.Login)
 	r.GET("/logout", userHandler.Logout)
 
-	r.Use(userHandler.AuthTokenMiddleware())
-	
-	r.POST("/document", documentHandler.CreateDocument)
+	ar := r.Group("/", userHandler.AuthTokenMiddleware())
+
+	ar.POST("/document", documentHandler.CreateDocument)
+	ar.GET("/document", documentHandler.Listdocuments)
+
 }
 
 func Start(addr string) error {

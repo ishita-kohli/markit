@@ -1,6 +1,7 @@
 package document
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,8 @@ func (h *Handler) CreateDocument(c *gin.Context) {
 	}
 
 	u.UserID = c.GetInt64("userId")
+
+	fmt.Println(u.UserID)
 
 	res, err := h.Service.CreateDocument(c.Request.Context(), &u)
 	if err != nil {

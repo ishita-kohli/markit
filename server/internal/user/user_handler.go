@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -45,7 +46,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "localhost", false, true)
+	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "127.0.0.1", false, true)
 	c.JSON(http.StatusOK, u)
 }
 
@@ -64,7 +65,8 @@ func (h *Handler) AuthTokenMiddleware() gin.HandlerFunc {
 
 		userId, err := h.Service.GetSignedInUserID(c, token)
 		if err != nil {
-			c.AbortWithStatusJSON(401, gin.H{"error": "unauthorized"})
+			fmt.Println(err)
+			c.AbortWithStatusJSON(401, gin.H{"error": "unauthorized, bad token"})
 			return
 		}
 

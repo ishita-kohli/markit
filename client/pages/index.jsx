@@ -3,6 +3,7 @@ import { API_URL } from "../constants";
 import { AuthContext } from "../modules/auth_provider";
 import { WebsocketContext } from "../modules/websocket_provider";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const Index = () => {
   const [documents, setDocuments] = useState([]);
@@ -14,14 +15,7 @@ const Index = () => {
 
   const getDocuments = async () => {
     try {
-      const res = await fetch(`${API_URL}/ws/getDocuments`, {
-        method: "GET",
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setDocuments(data);
-      }
+      throw new Error("not implemented");
     } catch (err) {
       console.log(err);
     }
@@ -36,16 +30,11 @@ const Index = () => {
 
     try {
       setDocumentName("");
-      const res = await fetch(`${API_URL}/document`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          title: documentName,
-        }),
+      const { data } = await axios.post("/document", {
+        title: documentName,
       });
 
-      if (res.ok) {
+      if (data) {
         console.log("works!");
       }
     } catch (err) {

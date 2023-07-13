@@ -94,7 +94,7 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 
 func (s *service) GetSignedInUserID(c context.Context, tokenString string) (int64, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &MyJWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte("AllYourBase"), nil
+		return []byte(secretKey), nil
 	})
 	if err != nil {
 		return -1, err

@@ -19,7 +19,7 @@ const Index = () => {
     e.preventDefault();
 
     try {
-      await axios.get(`/signup`, {
+      await axios.post(`/signup`, {
         username,
         email,
         password,

@@ -6,7 +6,8 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
-	],
+    './layout/**/*.{js,jsx}',
+  ],
   theme: {
     container: {
       center: true,

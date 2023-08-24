@@ -1,8 +1,8 @@
 export default function Layout({ children }) {
     return (
         <div className="min-h-screen bg-violet-100 p-16 w-full">
-            <div className="bg-slate-100 rounded-3xl grid lg:grid-cols-2 max-w-[72rem] mx-auto overflow-clip">
-                <div className="right flex flex-col justify-evenly bg-white">
+            <div className="bg-slate-100 rounded-3xl grid grid-cols-2 max-w-[72rem] mx-auto overflow-clip">
+                <div className="flex flex-col justify-evenly bg-white">
                     <div className="text-center my-24">
                         {children}
                     </div>

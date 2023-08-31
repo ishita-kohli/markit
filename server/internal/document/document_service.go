@@ -2,6 +2,7 @@ package document
 
 import (
 	"context"
+	"fmt"
 	"time"
 )
 
@@ -33,4 +34,19 @@ func (s *service) Listdocuments(c context.Context, req *DocumentlistReq) ([](*Le
 	defer cancel()
 	return s.Repository.Listdocuments(ctx, req)
 
+}
+func (s *service) Getdocument(c context.Context, req *GetDocumentByIDReq) (*Document, error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	accessLevel, err := s.Repository.CheckAccess(ctx, req.UserID, req.DocumentID)
+	if err != nil {
+		return nil, err
+	}
+
+	if accessLevel == NOACCESS {
+		return nil, fmt.Errorf("You don't have access\n")
+	}
+
+	return s.Repository.GetDocumentById(ctx, req.DocumentID)
 }

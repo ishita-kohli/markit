@@ -3,6 +3,7 @@ package document
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,6 +45,24 @@ func (h *Handler) Listdocuments(c *gin.Context) {
 	req := DocumentlistReq{
 		UserID: userID,
 		Role:   role,
+	}
+	documents, err := h.Service.Listdocuments(c.Request.Context(), &req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, documents)
+}
+func (h *Handler) GetDocumentsByID(c *gin.Context) {
+	documentID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Errorf("ID Must be an integer")})
+		return
+	}
+	userID := c.GetInt64("userId")
+	req := GetDocumentByIDReq{
+		UserID:     userID,
+		DocumentID: int64(documentID),
 	}
 	documents, err := h.Service.Listdocuments(c.Request.Context(), &req)
 	if err != nil {

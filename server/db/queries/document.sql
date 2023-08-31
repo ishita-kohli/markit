@@ -27,3 +27,4 @@ FROM document_access AS a
     INNER JOIN documents AS d ON a.document_id = d.id
 WHERE a.user_id = $1
     AND a.role = $2;
+

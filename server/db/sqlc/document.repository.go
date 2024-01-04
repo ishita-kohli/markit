@@ -59,11 +59,11 @@ func (r *repository) GetDocumentById(ctx context.Context, id int64) (*document.D
 			Body:      dbDocument.Body,
 			CreatedAt: dbDocument.CreatedAt,
 		},
-		Roles: make([]document.Documentaccess, 0),
+		Roles: make([]document.DocumentAccess, 0),
 	}
 
 	for i := range dbDocumentAccess {
-		result.Roles = append(result.Roles, document.Documentaccess{
+		result.Roles = append(result.Roles, document.DocumentAccess{
 			UserID: dbDocumentAccess[i].UserID,
 			Role:   string(dbDocumentAccess[i].Role),
 		})
@@ -92,6 +92,33 @@ func (r *repository) Listdocuments(c context.Context, req *document.Documentlist
 	}
 
 	return result, nil
+}
+
+func (r *repository) CheckAccess(ctx context.Context, userId int64, documentId int64) (document.PermissionLevel, error) {
+	access, err := r.q.GetAccessLevelForDocumentByUser(ctx, GetAccessLevelForDocumentByUserParams{
+		DocumentID: documentId,
+		UserID:     userId,
+	})
+	if err != nil {
+		return document.NOACCESS, err
+	}
+
+	switch access.Role {
+	case DocumentAccessRolesOwner:
+		return document.OWNER, nil
+	case DocumentAccessRolesEditor:
+		return document.EDITOR, nil
+	case DocumentAccessRolesViewer:
+		return document.VIEWER, nil
+	default:
+		return document.NOACCESS, nil
+	}
+}
+func (r *repository) UpdateDocument(ctx context.Context, documentId int64, body string) error {
+	return r.q.UpdateDocumentText(ctx, UpdateDocumentTextParams{
+		ID:   documentId,
+		Body: body,
+	})
 }
 
 func NewDocumentRepository(q *Queries, db *sql.DB) document.Repository {

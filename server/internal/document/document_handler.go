@@ -53,7 +53,8 @@ func (h *Handler) Listdocuments(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, documents)
 }
-func (h *Handler) GetDocumentsByID(c *gin.Context) {
+
+func (h *Handler) GetDocumentByID(c *gin.Context) {
 	documentID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Errorf("ID Must be an integer")})
@@ -64,10 +65,33 @@ func (h *Handler) GetDocumentsByID(c *gin.Context) {
 		UserID:     userID,
 		DocumentID: int64(documentID),
 	}
-	documents, err := h.Service.Listdocuments(c.Request.Context(), &req)
+	documents, err := h.Service.Getdocument(c.Request.Context(), &req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, documents)
+}
+
+func (h *Handler) UpdateDocument(c *gin.Context) {
+	var u UpdateDocumentReq
+	if err := c.ShouldBindJSON(&u); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	u.UserID = c.GetInt64("userId")
+
+	documentID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Errorf("ID Must be an integer")})
+		return
+	}
+	u.DocumentID = int64(documentID)
+
+	err = h.Service.UpdateDocument(c.Request.Context(), &u)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.Status(http.StatusOK)
 }

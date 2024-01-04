@@ -34,7 +34,8 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 
 	ar.POST("/document", documentHandler.CreateDocument)
 	ar.GET("/document", documentHandler.Listdocuments)
-	ar.GET("/document/:id", documentHandler.GetDocumentsByID)
+	ar.GET("/document/:id", documentHandler.GetDocumentByID)
+	ar.PATCH("/document/:id", documentHandler.UpdateDocument)
 
 }
 

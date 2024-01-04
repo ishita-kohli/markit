@@ -3,6 +3,11 @@ INSERT INTO documents(title)
 VALUES($1)
 RETURNING id;
 
+-- name: UpdateDocumentText :exec
+UPDATE documents
+SET body = $2
+WHERE id = $1;
+
 -- name: SetPermission :one
 INSERT INTO document_access(document_id, user_id, role)
 VALUES($1, $2, $3)
@@ -17,6 +22,12 @@ WHERE id = $1;
 SELECT *
 FROM document_access
 WHERE document_id = $1;
+
+-- name: GetAccessLevelForDocumentByUser :one
+SELECT * 
+FROM document_access
+WHERE document_id = $1
+    AND user_id = $2;
 
 -- name: GetDocumentListByUser :many
 SELECT d.id,

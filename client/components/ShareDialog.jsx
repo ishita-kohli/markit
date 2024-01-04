@@ -12,7 +12,7 @@ import { buttonVariants } from "./ui/button";
 function ShareDialog() {
   return (
     <Dialog>
-      <DialogTrigger classname={buttonVariants()}>Share</DialogTrigger>
+      <DialogTrigger className={buttonVariants()}>Share</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure absolutely sure?</DialogTitle>

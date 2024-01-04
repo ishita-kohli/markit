@@ -120,7 +120,13 @@ func (r *repository) UpdateDocument(ctx context.Context, documentId int64, body 
 		Body: body,
 	})
 }
+func (r *repository) AddAccess(ctx context.Context, documentId int64, userId int64, role document.PermissionLevel) error {
 
+	return r.q.UpdateDocumentText(ctx, UpdateDocumentTextParams{
+		ID:   documentId,
+		Body: body,
+	})
+}
 func NewDocumentRepository(q *Queries, db *sql.DB) document.Repository {
 	return &repository{q: q, db: db}
 }

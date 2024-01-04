@@ -65,3 +65,21 @@ func (s *service) UpdateDocument(c context.Context, req *UpdateDocumentReq) erro
 
 	return s.Repository.UpdateDocument(ctx, req.DocumentID, req.Body)
 }
+func (s *service) ShareDocument(c context.Context, req *ShareDocumentReq) error {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	accessLevel, err := s.Repository.CheckAccess(ctx, req.CurrentUserID, req.DocumentID)
+	if err != nil {
+		return err
+	}
+
+	if accessLevel == NOACCESS {
+		return fmt.Errorf("You don't have access\n")
+	}
+	if accessLevel == VIEWER && req.Role != VIEWER {
+		return fmt.Errorf("You can only give viewer access")
+	}
+
+	return s.Repository.AddAccess(ctx, req.DocumentID, req.ShareUserID, req.Role)
+}

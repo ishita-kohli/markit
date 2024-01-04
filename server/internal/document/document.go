@@ -48,6 +48,12 @@ type UpdateDocumentReq struct {
 	DocumentID int64
 	Body       string `json:"text"`
 }
+type ShareDocumentReq struct {
+	CurrentUserID int64
+	ShareUserID   int64
+	DocumentID    int64
+	Role          PermissionLevel
+}
 
 type Repository interface {
 	CreateDocument(ctx context.Context, req *CreateDocumentReq) (int64, error)
@@ -55,6 +61,7 @@ type Repository interface {
 	Listdocuments(c context.Context, req *DocumentlistReq) ([](*LeanDocument), error)
 	CheckAccess(ctx context.Context, userId int64, documentId int64) (PermissionLevel, error)
 	UpdateDocument(ctx context.Context, documentId int64, body string) error
+	AddAccess(ctx context.Context, documentId int64, userId int64, role PermissionLevel) error
 }
 
 type Service interface {
@@ -62,4 +69,5 @@ type Service interface {
 	Listdocuments(c context.Context, req *DocumentlistReq) ([](*LeanDocument), error)
 	Getdocument(c context.Context, req *GetDocumentByIDReq) (*Document, error)
 	UpdateDocument(c context.Context, req *UpdateDocumentReq) error
+	ShareDocument(c context.Context, req *ShareDocumentReq) error
 }

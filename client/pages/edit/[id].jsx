@@ -20,6 +20,7 @@ const MDEditor = dynamic(
 
 function DocumentEditor() {
   const router = useRouter();
+  const id = router.query.id;
 
   const [documentData, setDocumentData] = useState({
     data: null,
@@ -29,11 +30,10 @@ function DocumentEditor() {
 
   const [text, setText] = useState("");
 
-  console.log(router.query)
-
   const getDocument = async () => {
+    if (!id) return;
     try {
-      const { data } = await axios.get(`/document/${router.query.id}`);
+      const { data } = await axios.get(`/document/${id}`);
       setDocumentData({
         data,
         loading: false,
@@ -51,12 +51,12 @@ function DocumentEditor() {
 
   useEffect(() => {
     getDocument();
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col w-full">
-      <div className="max-w-7xl w-full mx-auto px-8 py-2 mb-6 flex justify-between align-center">
-        <h1 className="font-medium uppercase text-3xl">{documentData.data?.title}</h1>
+      <div className="flex justify-between w-full px-8 py-2 mx-auto mb-6 max-w-7xl align-center">
+        <h1 className="text-3xl font-medium uppercase">{documentData.data?.title}</h1>
         <ShareDialog />
       </div>
       <div className="container">

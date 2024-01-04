@@ -11,6 +11,8 @@ WHERE id = $1;
 -- name: SetPermission :one
 INSERT INTO document_access(document_id, user_id, role)
 VALUES($1, $2, $3)
+ON CONFLICT (document_id,user_id)
+SET role = EXCLUDED.role
 RETURNING document_id;
 
 -- name: GetDocumentById :one

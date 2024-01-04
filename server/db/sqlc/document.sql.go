@@ -144,6 +144,8 @@ func (q *Queries) GetPermissionsForDocumentId(ctx context.Context, documentID in
 const setPermission = `-- name: SetPermission :one
 INSERT INTO document_access(document_id, user_id, role)
 VALUES($1, $2, $3)
+ON CONFLICT (document_id,user_id)
+DO UPDATE SET role = EXCLUDED.role
 RETURNING document_id
 `
 

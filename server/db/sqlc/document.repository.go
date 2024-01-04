@@ -121,11 +121,18 @@ func (r *repository) UpdateDocument(ctx context.Context, documentId int64, body 
 	})
 }
 func (r *repository) AddAccess(ctx context.Context, documentId int64, userId int64, role document.PermissionLevel) error {
+	dbrole := DocumentAccessRolesViewer
+	if role == document.EDITOR {
+		dbrole = DocumentAccessRolesEditor
+	}
 
-	return r.q.UpdateDocumentText(ctx, UpdateDocumentTextParams{
-		ID:   documentId,
-		Body: body,
-	})
+	perm := SetPermissionParams{
+		DocumentID: documentId,
+		UserID:     userId,
+		Role:       dbrole,
+	}
+	_, err := r.q.SetPermission(ctx, perm)
+	return err
 }
 func NewDocumentRepository(q *Queries, db *sql.DB) document.Repository {
 	return &repository{q: q, db: db}

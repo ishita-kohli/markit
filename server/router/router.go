@@ -32,10 +32,13 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 
 	ar := r.Group("/", userHandler.AuthTokenMiddleware())
 
+	ar.GET("/users", userHandler.Getuserlist)
+
 	ar.POST("/document", documentHandler.CreateDocument)
 	ar.GET("/document", documentHandler.Listdocuments)
 	ar.GET("/document/:id", documentHandler.GetDocumentByID)
 	ar.PATCH("/document/:id", documentHandler.UpdateDocument)
+	ar.PATCH("/document/:id/share", documentHandler.ShareDocument)
 
 }
 

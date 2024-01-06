@@ -95,3 +95,25 @@ func (h *Handler) UpdateDocument(c *gin.Context) {
 	}
 	c.Status(http.StatusOK)
 }
+func (h *Handler) ShareDocument(c *gin.Context) {
+	var u ShareDocumentReq
+	if err := c.ShouldBindJSON(&u); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	u.CurrentUserID = c.GetInt64("userId")
+
+	documentID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Errorf("ID Must be an integer")})
+		return
+	}
+	u.DocumentID = int64(documentID)
+
+	err = h.Service.ShareDocument(c.Request.Context(), &u)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.Status(http.StatusOK)
+}

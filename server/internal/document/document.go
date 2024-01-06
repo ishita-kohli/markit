@@ -50,9 +50,9 @@ type UpdateDocumentReq struct {
 }
 type ShareDocumentReq struct {
 	CurrentUserID int64
-	ShareUserID   int64
+	ShareUserID   int64 `json:"share_with"`
 	DocumentID    int64
-	Role          PermissionLevel
+	Role          PermissionLevel `json:"role"`
 }
 
 type Repository interface {

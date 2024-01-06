@@ -46,14 +46,18 @@ func NewUserRepository(q *Queries) user.Repository {
 	return &userRepsitory{q: q}
 }
 func (r *userRepsitory) Getuserlist(ctx context.Context) ([]*user.GetuserlistRes, error) {
-	result, err := r.q.Getuserlist(ctx)
+	rows, err := r.q.Getuserlist(ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	return &user.GetuserlistRes{
-		Userid:   result.Userid,
-		Username: result.Username,
-		Email:    result.Email,
-	}, nil
+	var users []*user.GetuserlistRes
+	for _, row := range rows {
+		u := &user.GetuserlistRes{
+			Userid:   row.ID,
+			Username: row.Username,
+			Email:    row.Email,
+		}
+		users = append(users, u)
+	}
+	return users, nil
 }

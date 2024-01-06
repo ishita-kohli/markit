@@ -75,3 +75,13 @@ func (h *Handler) AuthTokenMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+func (h *Handler) Getuserlist(c *gin.Context) {
+
+	u, err := h.Service.Getuserlist(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, u)
+}

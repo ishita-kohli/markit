@@ -60,3 +60,39 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEm
 	)
 	return i, err
 }
+
+const getuserlist = `-- name: Getuserlist :many
+SELECT id,
+    username,
+    email
+FROM users
+`
+
+type GetuserlistRow struct {
+	ID       int64
+	Username string
+	Email    string
+}
+
+func (q *Queries) Getuserlist(ctx context.Context) ([]GetuserlistRow, error) {
+	rows, err := q.db.QueryContext(ctx, getuserlist)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetuserlistRow
+	for rows.Next() {
+		var i GetuserlistRow
+		if err := rows.Scan(&i.ID, &i.Username, &i.Email); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -11,7 +11,7 @@ SELECT id,
 FROM users
 WHERE email = $1;
 
--- name: Getuserlist  :one
+-- name: Getuserlist :many
 SELECT id,
     username,
     email

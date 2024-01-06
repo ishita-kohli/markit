@@ -8,20 +8,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { buttonVariants } from "./ui/button";
+import Listusers from "../components/ui/Listusers"
 
 function ShareDialog() {
   return (
     <Dialog>
       <DialogTrigger className={buttonVariants()}>Share</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
+      
+    <DialogContent>
+    <ul>
+          <Listusers/>
+        </ul>
+    
+    </DialogContent>
+        
+       
     </Dialog>
   );
 }

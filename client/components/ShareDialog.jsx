@@ -8,21 +8,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { buttonVariants } from "./ui/button";
-import Listusers from "../components/ui/Listusers"
+import Listusers from "../components/ui/Listusers";
 
 function ShareDialog() {
   return (
     <Dialog>
       <DialogTrigger className={buttonVariants()}>Share</DialogTrigger>
-      
-    <DialogContent>
-    <ul>
-          <Listusers/>
-        </ul>
-    
-    </DialogContent>
-        
-       
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Share</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>
+          <Listusers />
+        </DialogDescription>
+      </DialogContent>
     </Dialog>
   );
 }

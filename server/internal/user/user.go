@@ -39,12 +39,12 @@ type LoginUserRes struct {
 type Repository interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
-	Getuserlist(ctx context.Context) (*GetuserlistRes, error)
+	Getuserlist(ctx context.Context) ([]*GetuserlistRes, error)
 }
 
 type Service interface {
 	CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error)
 	Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error)
 	GetSignedInUserID(c context.Context, tokenString string) (int64, error)
-	Getuserlist(c context.Context) (*GetuserlistRes, error)
+	Getuserlist(c context.Context) ([]*GetuserlistRes, error)
 }

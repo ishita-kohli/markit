@@ -10,3 +10,9 @@ SELECT id,
     password
 FROM users
 WHERE email = $1;
+
+-- name: Getuserlist  :one
+SELECT id,
+    username,
+    email
+FROM users;

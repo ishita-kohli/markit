@@ -110,3 +110,10 @@ func (s *service) GetSignedInUserID(c context.Context, tokenString string) (int6
 
 	return -1, fmt.Errorf("cannot get id")
 }
+func (s *service) Getuserlist(c context.Context) (*GetuserlistRes, error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	return s.Repository.Getuserlist(ctx)
+
+}

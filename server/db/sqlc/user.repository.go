@@ -45,3 +45,15 @@ func (r *userRepsitory) GetUserByEmail(ctx context.Context, email string) (*user
 func NewUserRepository(q *Queries) user.Repository {
 	return &userRepsitory{q: q}
 }
+func (r *userRepsitory) Getuserlist(ctx context.Context) (*user.GetuserlistRes, error) {
+	result, err := r.q.Getuserlist(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user.GetuserlistRes{
+		Userid:   result.Userid,
+		Username: result.Username,
+		Email:    result.Email,
+	}, nil
+}

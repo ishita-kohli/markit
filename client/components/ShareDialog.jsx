@@ -10,7 +10,7 @@ import {
 import { buttonVariants } from "./ui/button";
 import Listusers from "../components/ui/Listusers";
 
-function ShareDialog() {
+function ShareDialog({id}) {
   return (
     <Dialog>
       <DialogTrigger className={buttonVariants()}>Share</DialogTrigger>
@@ -20,7 +20,7 @@ function ShareDialog() {
           <DialogTitle>Share</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          <Listusers />
+          <Listusers id={id} />
         </DialogDescription>
       </DialogContent>
     </Dialog>

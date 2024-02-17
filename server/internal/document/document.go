@@ -19,6 +19,19 @@ const (
 	NOACCESS
 )
 
+func ReadPermissionLevelFromString(payload string) PermissionLevel {
+	if payload == "owner" {
+		return OWNER
+	}
+	if payload == "editor" {
+		return EDITOR
+	}
+	if payload == "viewer" {
+		return VIEWER
+	}
+	return NOACCESS
+}
+
 type LeanDocument struct {
 	ID        int64     `json:"id"`
 	Title     string    `json:"title"`
@@ -52,7 +65,7 @@ type ShareDocumentReq struct {
 	CurrentUserID int64
 	ShareUserID   int64 `json:"share_with"`
 	DocumentID    int64
-	Role          PermissionLevel `json:"role"`
+	Role          string `json:"role"`
 }
 
 type Repository interface {

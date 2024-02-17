@@ -57,7 +57,7 @@ function DocumentEditor() {
     <div className="flex flex-col w-full">
       <div className="flex justify-between w-full px-8 py-2 mx-auto mb-6 max-w-7xl align-center">
         <h1 className="text-3xl font-medium uppercase">{documentData.data?.title}</h1>
-        <ShareDialog />
+        <ShareDialog id={id}/>
       </div>
       <div className="container">
         <MDEditor height={650} value={text} onChange={setText} />

@@ -69,6 +69,8 @@ func (s *service) ShareDocument(c context.Context, req *ShareDocumentReq) error 
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
 
+	role := ReadPermissionLevelFromString(req.Role)
+
 	accessLevel, err := s.Repository.CheckAccess(ctx, req.CurrentUserID, req.DocumentID)
 	if err != nil {
 		return err
@@ -77,9 +79,9 @@ func (s *service) ShareDocument(c context.Context, req *ShareDocumentReq) error 
 	if accessLevel == NOACCESS {
 		return fmt.Errorf("You don't have access\n")
 	}
-	if accessLevel == VIEWER && req.Role != VIEWER {
+	if accessLevel == VIEWER && role != VIEWER {
 		return fmt.Errorf("You can only give viewer access")
 	}
 
-	return s.Repository.AddAccess(ctx, req.DocumentID, req.ShareUserID, req.Role)
+	return s.Repository.AddAccess(ctx, req.DocumentID, req.ShareUserID, role)
 }

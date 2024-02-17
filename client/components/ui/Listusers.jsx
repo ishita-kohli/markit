@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./button";
 
-const Listusers = () => {
+const Listusers = ({id}) => {
   const [users, setUsers] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedRole, setSelectedRole] = useState(null);
@@ -38,6 +38,24 @@ const Listusers = () => {
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
   };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+       
+      const { data } = await axios.patch(`/document/${id}/share`, {
+        share_with :selectedUser.id,
+        role: selectedRole,
+      });
+
+      if (data) {
+        console.log("works!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <div>
@@ -74,7 +92,7 @@ const Listusers = () => {
         ))}
       </ul>
 
-      <Button>Save</Button>
+      <Button onClick={submitHandler}>Save</Button>
     </div>
   );
 };

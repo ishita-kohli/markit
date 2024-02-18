@@ -94,9 +94,9 @@ const Login = () => {
         {/* bottom */}
         <p className="text-center text-gray-400 ">
           don&apos;t have an account yet?{" "}
-          <a href="/signup" className="text-purple-500">
+          <Link href="/signup" className="text-purple-500">
             Sign Up
-          </a>
+          </Link>
         </p>
       </section>
     </Layout>

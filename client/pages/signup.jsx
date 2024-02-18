@@ -35,9 +35,9 @@ const Index = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <section className="w-3/4 mx-auto flex flex-col gap-10">
+      <section className="flex flex-col w-3/4 gap-10 mx-auto">
         <div className="title">
-          <h1 className="text-gray-800 text-4xl font-bold py-4">Register</h1>
+          <h1 className="py-4 text-4xl font-bold text-gray-800">Register</h1>
           <p className="w-3/4 mx-auto text-gray-400">
             Please enter your details
           </p>
@@ -88,9 +88,9 @@ const Index = () => {
         {/* bottom */}
         <p className="text-center text-gray-400 ">
           have an account?{" "}
-          <a href="/login" className="text-purple-500">
+          <Link href="/login" className="text-purple-500">
             login
-          </a>
+          </Link>
         </p>
       </section>
     </Layout>

@@ -25,9 +25,9 @@ function DocumentList({ role }) {
   }, []);
 
   return (
-    <div className="grid grid-cols-auto gap-4">
+    <div className="grid gap-4 grid-cols-auto">
       {documents.map((document) => (
-          <Card>
+          <Card key={document.id}>
             <CardHeader>
               <CardTitle>{document.title}</CardTitle>
               <CardDescription>{role}</CardDescription>

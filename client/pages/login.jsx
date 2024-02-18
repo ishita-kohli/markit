@@ -50,9 +50,9 @@ const Login = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <section className="w-3/4 mx-auto flex flex-col gap-10">
+      <section className="flex flex-col w-3/4 gap-10 mx-auto">
         <div className="title">
-          <h1 className="text-gray-800 text-4xl font-bold py-4">Welcome</h1>
+          <h1 className="py-4 text-4xl font-bold text-gray-800">Welcome</h1>
           <p className="w-3/4 mx-auto text-gray-400">
             Welcome back! Please enter your details
           </p>
@@ -93,7 +93,7 @@ const Login = () => {
 
         {/* bottom */}
         <p className="text-center text-gray-400 ">
-          don't have an account yet?{" "}
+          don&apos;t have an account yet?{" "}
           <a href="/signup" className="text-purple-500">
             Sign Up
           </a>

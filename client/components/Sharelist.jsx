@@ -33,7 +33,7 @@ function Sharelist({ id, sharedWithRoles }) {
   return (
     <div className="flex -space-x-1">
       {users.map((user) => (
-        <TooltipProvider>
+        <TooltipProvider key={user.id}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Avatar className="outline-black outline">

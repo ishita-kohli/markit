@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"os"
+
 	"server/db"
 	"server/db/sqlc"
 	"server/internal/document"
@@ -26,5 +28,11 @@ func main() {
 	documentHandler := document.NewHandler(documentSvc)
 
 	router.InitRouter(userHandler, documentHandler)
-	router.Start("0.0.0.0:8080")
+
+	port, exists := os.LookupEnv("PORT")
+
+	if !exists {
+		panic("env var not found: PORT")
+	}
+	router.Start("0.0.0.0:" + port)
 }

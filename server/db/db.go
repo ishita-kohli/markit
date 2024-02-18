@@ -2,6 +2,8 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -11,7 +13,13 @@ type Database struct {
 }
 
 func NewDatabase() (*Database, error) {
-	db, err := sql.Open("postgres", "postgresql://root:password@localhost:5434/markit?sslmode=disable")
+	dbUrl, exists := os.LookupEnv("DATABASE_URL")
+
+	if !exists {
+		return nil, fmt.Errorf("env var not found: DATABASE_URL")
+	}
+
+	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
 		return nil, err
 	}

@@ -46,7 +46,8 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "markit-nine.vercel.app", false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "markit-nine.vercel.app", true, true)
 	c.JSON(http.StatusOK, u)
 }
 

@@ -16,11 +16,15 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Authorization", "Origin", "Content-Length", "Content-Type", "Access-Control-Allow-Origin"},
+		AllowOrigins:     []string{"http://127.0.0.1:3000", "https://markit-nine.vercel.app"},
+		AllowMethods:     []string{"GET", "POST", "PATCH"},
+		AllowHeaders:     []string{"Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-		AllowAllOrigins:  true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://127.0.0.1:3000" || origin == "https://markit-nine.vercel.app"
+		},
+		MaxAge: 12 * time.Hour,
 	}))
 
 	r.POST("/signup", userHandler.CreateUser)

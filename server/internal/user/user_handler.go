@@ -46,7 +46,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "127.0.0.1", false, true)
+	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", c.Request.Header.Get("Origin"), false, true)
 	c.JSON(http.StatusOK, u)
 }
 
@@ -75,8 +75,8 @@ func (h *Handler) AuthTokenMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-func (h *Handler) Getuserlist(c *gin.Context) {
 
+func (h *Handler) Getuserlist(c *gin.Context) {
 	u, err := h.Service.Getuserlist(c.Request.Context())
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

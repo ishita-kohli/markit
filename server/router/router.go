@@ -1,9 +1,10 @@
 package router
 
 import (
+	"time"
+
 	"server/internal/document"
 	"server/internal/user"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -15,13 +16,13 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://127.0.0.1:3000"},
+		AllowOrigins:     []string{"http://127.0.0.1:3000", "https://markit-nine.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PATCH"},
 		AllowHeaders:     []string{"Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
-			return origin == "http://127.0.0.1:3000"
+			return origin == "http://127.0.0.1:3000" || origin == "https://markit-nine.vercel.app"
 		},
 		MaxAge: 12 * time.Hour,
 	}))
@@ -39,7 +40,6 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	ar.GET("/document/:id", documentHandler.GetDocumentByID)
 	ar.PATCH("/document/:id", documentHandler.UpdateDocument)
 	ar.PATCH("/document/:id/share", documentHandler.ShareDocument)
-
 }
 
 func Start(addr string) error {

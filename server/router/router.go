@@ -1,8 +1,6 @@
 package router
 
 import (
-	"time"
-
 	"server/internal/document"
 	"server/internal/user"
 
@@ -15,17 +13,7 @@ var r *gin.Engine
 func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://127.0.0.1:3000", "https://markit-nine.vercel.app"},
-		AllowMethods:     []string{"GET", "POST", "PATCH"},
-		AllowHeaders:     []string{"Content-Type"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == "http://127.0.0.1:3000" || origin == "https://markit-nine.vercel.app"
-		},
-		MaxAge: 12 * time.Hour,
-	}))
+	r.Use(cors.Default())
 
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)

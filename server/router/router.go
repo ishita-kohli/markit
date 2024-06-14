@@ -1,6 +1,8 @@
 package router
 
 import (
+	"time"
+	
 	"server/internal/document"
 	"server/internal/user"
 
@@ -13,7 +15,7 @@ var r *gin.Engine
 func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
-	router.Use(cors.New(cors.Config{
+	r.Use(cors.New(cors.Config{
 	    AllowOrigins:     []string{"https://markit-xegd-d2stqv6bx-ishitakohlis-projects.vercel.app", "https://markit-nine.vercel.app"},
 	    AllowMethods:     []string{"PUT", "PATCH", "POST", "OPTIONS", "GET"},
 	    AllowHeaders:     []string{"Origin"},

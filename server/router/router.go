@@ -2,7 +2,7 @@ package router
 
 import (
 	"time"
-	
+
 	"server/internal/document"
 	"server/internal/user"
 
@@ -16,16 +16,16 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 	r = gin.Default()
 
 	r.Use(cors.New(cors.Config{
-	    AllowOrigins:     []string{"https://markit-xegd-d2stqv6bx-ishitakohlis-projects.vercel.app", "https://markit-nine.vercel.app"},
-	    AllowMethods:     []string{"PUT", "PATCH", "POST", "OPTIONS", "GET"},
-	    AllowHeaders:     []string{"Origin"},
-	    ExposeHeaders:    []string{"Content-Length"},
-	    AllowCredentials: true,
-	    AllowOriginFunc: func(origin string) bool {
-	      return origin == "https://markit-xegd-d2stqv6bx-ishitakohlis-projects.vercel.app" || origin == "https://markit-nine.vercel.app"
-	    },
-	    MaxAge: 12 * time.Hour,
-	  }))
+		AllowOrigins:     []string{"http://127.0.0.1:3000", "https://markit-nine.vercel.app"},
+		AllowMethods:     []string{"GET", "POST", "PATCH"},
+		AllowHeaders:     []string{"Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://127.0.0.1:3000" || origin == "https://markit-nine.vercel.app"
+		},
+		MaxAge: 12 * time.Hour,
+	}))
 
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)

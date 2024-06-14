@@ -17,7 +17,7 @@ func InitRouter(userHandler *user.Handler, documentHandler *document.Handler) {
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://127.0.0.1:3000", "https://markit-nine.vercel.app"},
-		AllowMethods:     []string{"GET", "POST", "PATCH"},
+		AllowMethods:     []string{"GET", "POST", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
